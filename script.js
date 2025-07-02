@@ -139,6 +139,31 @@ document.addEventListener('DOMContentLoaded', function () {
             item.classList.add('animate-in');
         });
     }, 500);
+
+    // Enable fullscreen and unmute on video click in portfolio
+    const portfolioVideos = document.querySelectorAll('.portfolio-video');
+    portfolioVideos.forEach(video => {
+        video.addEventListener('click', function (e) {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) { // Safari
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) { // IE11
+                video.msRequestFullscreen();
+            }
+            video.muted = false;
+            video.volume = 1.0;
+            video.play();
+        });
+        // Also allow clicking overlay to trigger fullscreen/sound
+        const overlay = video.parentElement.querySelector('.portfolio-overlay');
+        if (overlay) {
+            overlay.addEventListener('click', function (e) {
+                e.preventDefault();
+                video.click();
+            });
+        }
+    });
 });
 
 // Navbar background change on scroll
